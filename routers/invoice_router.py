@@ -1,9 +1,9 @@
+from client.cp_client import get_cp
 from schemas.invoice_schema.schema import DeleteSchema, Invoice
-from aiosend import TESTNET, CryptoPay
 from fastapi import APIRouter, Response
 from aiosend.exceptions import APIError
 
-from schemas.return_schema.invoice_schema import CreateInvoie, DeleteInvoice
+from schemas.return_schema.invoice_schema import CreateInvoiceSchema, DeleteInvoiceAllSchema, DeleteInvoiceSchema
 
 
 
@@ -13,8 +13,8 @@ inv_router = APIRouter(
 )
 
 @inv_router.post("/create/invoice")
-async def create_invoice(token: str, param: Invoice) -> CreateInvoie:
-    cp = CryptoPay(token=token, network=TESTNET)
+async def create_invoice(token: str, param: Invoice) -> CreateInvoiceSchema:
+    cp = get_cp(token=token)
     invoice = await cp.create_invoice(
             amount=param.amount,
             asset=param.asset,
@@ -30,8 +30,8 @@ async def create_invoice(token: str, param: Invoice) -> CreateInvoie:
     
     
 @inv_router.delete("/delete/invoice/")
-async def delete_invoice(token: str, invoice: DeleteSchema) -> DeleteInvoice:
-    cp = CryptoPay(token=token, network=TESTNET)
+async def delete_invoice(token: str, invoice: DeleteSchema) -> DeleteInvoiceSchema:
+    cp = get_cp(token=token)
     
     result = await cp.delete_invoice(
         invoice_id=invoice.invoice_id
@@ -41,3 +41,13 @@ async def delete_invoice(token: str, invoice: DeleteSchema) -> DeleteInvoice:
             "message": "Успешно",
             "result": result
             }
+    
+@inv_router.delete("/delete/invoice/all")
+async def delete_invoice_all(token: str) -> DeleteInvoiceAllSchema:
+    cp = get_cp(token=token)
+    res = await cp.delete_all_invoices()
+    return {
+        "status": 200,
+        "message": "Успешно",
+        "result": res
+    }

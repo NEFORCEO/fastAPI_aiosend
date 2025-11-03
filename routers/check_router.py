@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Response
-from aiosend import TESTNET, CryptoPay
 
+from client.cp_client import get_cp
 from schemas.check_schema.schema import CreateCheck, DeleteCheck
-from schemas.return_schema.check_schema import CheckSchema, DeleteCheckSchema
+from schemas.return_schema.check_schema import CheckCreateSchema, DeleteCheckSchema
 
 check_router = APIRouter(
     tags=["ЧЕКИ"],
@@ -10,8 +10,8 @@ check_router = APIRouter(
 )
 
 @check_router.post("/create/check")
-async def create_check(token: str, param: CreateCheck) -> CheckSchema:
-    cp = CryptoPay(token=token, network=TESTNET)
+async def create_check(token: str, param: CreateCheck) -> CheckCreateSchema:
+    cp = get_cp(token=token)
     
     res = await cp.create_check(
         amount=param.amount,
@@ -29,7 +29,7 @@ async def create_check(token: str, param: CreateCheck) -> CheckSchema:
     
 @check_router.delete("/delete/check")
 async def delete_check(token: str, param: DeleteCheck) -> DeleteCheckSchema:
-    cp = CryptoPay(token=token, network=TESTNET)
+    cp = get_cp(token=token)
     
     res = await cp.delete_check(
         check_id = param.check_id
@@ -40,3 +40,12 @@ async def delete_check(token: str, param: DeleteCheck) -> DeleteCheckSchema:
         "result": res
     }
     
+@check_router.delete("/delete/check/all")
+async def delete_chec_all(token: str) -> DeleteCheckSchema:
+    cp = get_cp(token=token)
+    res = await cp.delete_all_checks()
+    return {
+        "status": 200,
+        "message": "Успешно",
+        "result": res
+    }

@@ -2,22 +2,22 @@ from typing import Any
 from aiosend.types import Balance, Currency
 from pydantic import BaseModel
 
-class GetApp(BaseModel):
+class GetAppSchema(BaseModel):
     status: int
     payment: str 
     id_app: int
     name_app: str
 
-class Found(BaseModel):
+class FoundSchema(BaseModel):
     status: int
     message: str
 
-class GetBalance(Found):
+class GetBalanceSchema(FoundSchema):
     result: Any
     
-class GetCurrencies(Found):
+class GetCurrenciesSchema(FoundSchema):
     result: list[Currency]
     
 
-class GetExchange_rates(Found):
+class GetExchange_ratesSchema(FoundSchema):
     result: Any

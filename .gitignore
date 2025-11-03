@@ -3,3 +3,4 @@ __pycache__/
 config.py
 devs.db
 .idea/
+Config/

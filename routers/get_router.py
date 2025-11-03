@@ -1,7 +1,8 @@
-from aiosend import CryptoPay, TESTNET
+
 from fastapi import APIRouter
 
-from schemas.return_schema.get_schema import GetApp, GetBalance, GetCurrencies, GetExchange_rates
+from client.cp_client import get_cp
+from schemas.return_schema.get_schema import GetAppSchema, GetBalanceSchema, GetCurrenciesSchema, GetExchange_ratesSchema
 
 
 
@@ -11,8 +12,8 @@ get_router = APIRouter(
 )
 
 @get_router.get("/app")
-async def get_me(token: str) -> GetApp:
-    cp = CryptoPay(token=token, network=TESTNET)
+async def get_me(token: str) -> GetAppSchema:
+    cp = get_cp(token=token)
     result = await cp.get_me()
     return {
         "status": 200,
@@ -22,8 +23,8 @@ async def get_me(token: str) -> GetApp:
     }
     
 @get_router.get("/balance")
-async def get_balance(token: str) -> GetBalance:
-    cp = CryptoPay(token=token, network=TESTNET)
+async def get_balance(token: str) -> GetBalanceSchema:
+    cp = get_cp(token=token)
     
     get_balance = await cp.get_balance()
     return {
@@ -33,8 +34,8 @@ async def get_balance(token: str) -> GetBalance:
     }
 
 @get_router.get('/currencies')
-async def get_currencies(token: str) -> GetCurrencies:
-    cp = CryptoPay(token=token, network=TESTNET)
+async def get_currencies(token: str) -> GetCurrenciesSchema:
+    cp = get_cp(token=token)
     
     res = await cp.get_currencies()
     return {
@@ -44,8 +45,8 @@ async def get_currencies(token: str) -> GetCurrencies:
     }
     
 @get_router.get("/exchange_rates")
-async def exchange_rates(token: str) -> GetExchange_rates:
-    cp = CryptoPay(token=token, network=TESTNET)
+async def exchange_rates(token: str) -> GetExchange_ratesSchema:
+    cp = get_cp(token=token)
     
     res = await cp.get_exchange_rates()
     return {

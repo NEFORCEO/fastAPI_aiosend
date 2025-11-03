@@ -1,10 +1,9 @@
 from typing import Any
 from pydantic import BaseModel
-from aiosend.types import Check
 
 
 
-class CheckSchema(BaseModel):
+class CheckCreateSchema(BaseModel):
      status: int
      message: str
      link: str  
@@ -13,7 +12,7 @@ class CheckSchema(BaseModel):
 class DeleteCheckSchema(BaseModel):
      status: int
      message: str 
-     result: Any 
+     result: Any
     
     
     
