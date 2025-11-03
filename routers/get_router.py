@@ -1,6 +1,7 @@
-from schemas.schema import Invoice
-from aiosend import CryptoPay, TESTNET
+from aiosend import CryptoPay
 from fastapi import APIRouter
+
+from aiosend.client import Network
 
 get_router = APIRouter(
     tags=["ИНФОРМАЦИЯ"],
@@ -8,8 +9,8 @@ get_router = APIRouter(
 )
 
 @get_router.get("/")
-async def get_me(token: str):
-    cp = CryptoPay(token=token, network=TESTNET)
+async def get_me(token: str, network:Network):
+    cp = CryptoPay(token=token, network=network)
     result = await cp.get_me()
     return {
         "status": 200,

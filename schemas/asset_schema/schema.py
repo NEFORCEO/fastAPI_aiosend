@@ -1,0 +1,28 @@
+from enum import StrEnum
+
+
+class Asset(StrEnum):
+    BNB: str = 'BNB'
+    BONK: str = 'BONK'
+    BTC: str = 'BTC'
+    CATI: str = 'CATI'
+    DOGS: str = 'DOGS'
+    ETH: str = 'ETH'
+    GRAM: str = 'GRAM'
+    HMSTR: str = 'HMSTR'
+    JET: str = 'JET'
+    LTC: str = 'LTC'
+    MAJOR: str = 'MAJOR'
+    MELANIA: str = 'MELANIA'
+    MEMHASH: str = 'MEMHASH'
+    MY: str = 'MY'
+    NOT: str = 'NOT'
+    PEPE: str = 'PEPE'
+    SEND: str = 'SEND'
+    SOL: str = 'SOL'
+    TON: str = 'TON'
+    TRUMP: str = 'TRUMP'
+    TRX: str = 'TRX'
+    USDC: str = 'USDC'
+    USDT: str = 'USDT'
+    WIF: str = 'WIF'
